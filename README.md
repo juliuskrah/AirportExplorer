@@ -20,10 +20,10 @@ External source: <https://docs.microsoft.com/en-us/aspnet/core/security/app-secr
 ## Deploy to Heroku
 To deploy to Heroku you need the following:
 
-[x] Docker  
-[x] Heroku CLI
-[x] Heroku account
-[x] ASP.NET Core 2 Runtime
+- [x] Docker
+- [x] Heroku CLI
+- [x] Heroku account
+- [x] ASP.NET Core 2 Runtime
 
 - Publish your app:
 
