@@ -18,24 +18,27 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace AirportExplorer.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly GoogleToken _googleConfig;
+        private readonly MapboxToken _mapboxConfig;
         public string MapboxAccessToken { get; }
-        public string GoogleApiKey { get; }
 
         public double InitialLatitude { get; set; } = 0;
         public double InitialLongitude { get; set; } = 0;
         public int InitialZoom { get; set; } = 1;
 
-        public IndexModel(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public IndexModel(IHostingEnvironment hostingEnvironment, IOptions<GoogleToken> googleConfig, IOptions<MapboxToken> mapboxConfig)
         {
             _hostingEnvironment = hostingEnvironment;
-            MapboxAccessToken = configuration["Mapbox:AccessToken"];
-            GoogleApiKey = configuration["Google:ApiKey"];
+            _googleConfig = googleConfig.Value;
+            _mapboxConfig = mapboxConfig.Value;
+            MapboxAccessToken = _mapboxConfig.AccessToken;
         }
 
         public IActionResult OnGetAirports()
@@ -77,7 +80,7 @@ namespace AirportExplorer.Pages
             // Execute the search request
             var searchResponse = await GooglePlaces.NearBySearch.QueryAsync(new PlacesNearBySearchRequest
             {
-                Key = GoogleApiKey,
+                Key = _googleConfig.ApiKey,
                 Name = name,
                 Location = new Location(latitude, longitude),
                 Radius = 1000
@@ -96,7 +99,7 @@ namespace AirportExplorer.Pages
             // Execute the details request
             var detailsResonse = await GooglePlaces.Details.QueryAsync(new PlacesDetailsRequest
             {
-                Key = GoogleApiKey,
+                Key = _googleConfig.ApiKey,
                 PlaceId = placeId
             });
 
@@ -115,7 +118,7 @@ namespace AirportExplorer.Pages
                 // Execute the photo request
                 var photosResponse = await GooglePlaces.Photos.QueryAsync(new PlacesPhotosRequest
                 {
-                    Key = GoogleApiKey,
+                    Key = _googleConfig.ApiKey,
                     PhotoReference = photoReference,
                     MaxWidth = 400
                 });

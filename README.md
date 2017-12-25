@@ -15,7 +15,8 @@ C:\> dotnet add package <package-name>
 ```
 
 ## Manage Secrets
-External source: <https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?tabs=visual-studio-code>
+Development Secrets: <https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?tabs=visual-studio-code>  
+Production Secrets: <https://blog.matjanowski.pl/2017/11/18/managing-options-and-secrets-in-net-core-and-docker/>
 
 ## Deploy to Heroku
 To deploy to Heroku you need the following:
@@ -89,3 +90,6 @@ To deploy to Heroku you need the following:
   C:\> heroku open -a <heroku-app-name>
   ```
 
+## Resources
+Docker + ASP.NET Core <https://docs.docker.com/engine/examples/dotnetcore/>  
+Docker <https://docs.docker.com/get-started/>
